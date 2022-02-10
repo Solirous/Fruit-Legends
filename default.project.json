@@ -6,7 +6,27 @@
     "ReplicatedStorage": {
       "Common": {
         "$path": "src/shared"
+      },
+      "Components" : {
+        "$path": "src/Components"
+      },
+
+      "Remotes" : {
+        "$className": "Folder",
+        "Katana" : {
+          "$className": "Folder",
+          "katanaRemote" : {
+            "$className": "RemoteFunction"
+          }
+        },
+        "Fist" : {
+          "$className": "Folder"
+          
+        }
+
       }
+
+
     },
 
     "ServerScriptService": {
