@@ -10,6 +10,11 @@
       "Components" : {
         "$path": "src/Components"
       },
+      "Util" : {
+        "$className": "Folder",
+        "$path": "src/Util"
+      },
+
 
       "Remotes" : {
         "$className": "Folder",
@@ -21,7 +26,6 @@
         },
         "Fist" : {
           "$className": "Folder"
-          
         }
 
       }
