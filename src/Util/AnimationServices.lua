@@ -2,15 +2,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local AnimationServices = {}
 
 function AnimationServices.loadAnimation(Humanoid : Humanoid , animationFolderName :string , animationName : string )
-    local animationFolder = ReplicatedStorage.Remotes:FindFirstChild(animationFolderName)
+    local animationFolder = ReplicatedStorage.Remotes:WaitForChild(animationFolderName,9e9)
     if animationFolder then
-        local Animation = animationFolder:FindFirstChild(animationName)
-        if Animation then
+        local Animation = animationFolder:WaitForChild(animationName)
             return Humanoid:LoadAnimation(Animation)
-        end
     end
 end
-
-
-
 return AnimationServices

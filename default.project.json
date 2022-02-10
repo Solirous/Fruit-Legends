@@ -27,7 +27,11 @@
         "Fist" : {
           "$className": "Folder"
         }
+      },
 
+      
+      "Movement" : {
+        "$className": "Folder"
       }
 
 

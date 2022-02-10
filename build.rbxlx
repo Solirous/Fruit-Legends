@@ -21,47 +21,93 @@
       <Properties>
         <string name="Name">Common</string>
       </Properties>
-      <Item class="ModuleScript" referent="3">
-        <Properties>
-          <string name="Name">Hello</string>
-          <string name="Source">return function()
-	print("Hello, world!")
-end</string>
-        </Properties>
-      </Item>
     </Item>
-    <Item class="Folder" referent="4">
+    <Item class="Folder" referent="3">
       <Properties>
         <string name="Name">Components</string>
       </Properties>
     </Item>
+    <Item class="Folder" referent="4">
+      <Properties>
+        <string name="Name">Remotes</string>
+      </Properties>
+      <Item class="Folder" referent="5">
+        <Properties>
+          <string name="Name">Fist</string>
+        </Properties>
+      </Item>
+      <Item class="Folder" referent="6">
+        <Properties>
+          <string name="Name">Katana</string>
+        </Properties>
+        <Item class="RemoteFunction" referent="7">
+          <Properties>
+            <string name="Name">katanaRemote</string>
+          </Properties>
+        </Item>
+      </Item>
+      <Item class="Folder" referent="8">
+        <Properties>
+          <string name="Name">Movement</string>
+        </Properties>
+      </Item>
+    </Item>
+    <Item class="Folder" referent="9">
+      <Properties>
+        <string name="Name">Util</string>
+      </Properties>
+      <Item class="ModuleScript" referent="10">
+        <Properties>
+          <string name="Name">AnimationServices</string>
+          <string name="Source">local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local AnimationServices = {}
+
+function AnimationServices.loadAnimation(Humanoid : Humanoid , animationFolderName :string , animationName : string )
+    local animationFolder = ReplicatedStorage.Remotes:FindFirstChild(animationFolderName)
+    if animationFolder then
+        local Animation = animationFolder:FindFirstChild(animationName)
+        if Animation then
+            return Humanoid:LoadAnimation(Animation)
+        end
+    end
+end
+return AnimationServices</string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="11">
+        <Properties>
+          <string name="Name">RemoteServices</string>
+          <string name="Source"></string>
+        </Properties>
+      </Item>
+    </Item>
   </Item>
-  <Item class="ServerScriptService" referent="5">
+  <Item class="ServerScriptService" referent="12">
     <Properties>
       <string name="Name">ServerScriptService</string>
     </Properties>
-    <Item class="Script" referent="6">
+    <Item class="Script" referent="13">
       <Properties>
         <string name="Name">Server</string>
         <string name="Source">print("Hello world, from server!")</string>
       </Properties>
     </Item>
   </Item>
-  <Item class="SoundService" referent="7">
+  <Item class="SoundService" referent="14">
     <Properties>
       <string name="Name">SoundService</string>
       <bool name="RespectFilteringEnabled">true</bool>
     </Properties>
   </Item>
-  <Item class="StarterPlayer" referent="8">
+  <Item class="StarterPlayer" referent="15">
     <Properties>
       <string name="Name">StarterPlayer</string>
     </Properties>
-    <Item class="StarterPlayerScripts" referent="9">
+    <Item class="StarterPlayerScripts" referent="16">
       <Properties>
         <string name="Name">StarterPlayerScripts</string>
       </Properties>
-      <Item class="LocalScript" referent="10">
+      <Item class="LocalScript" referent="17">
         <Properties>
           <string name="Name">Client</string>
           <string name="Source">print("Hello world, from client!")
@@ -71,12 +117,12 @@ print("a")</string>
       </Item>
     </Item>
   </Item>
-  <Item class="Workspace" referent="11">
+  <Item class="Workspace" referent="18">
     <Properties>
       <string name="Name">Workspace</string>
       <bool name="FilteringEnabled">true</bool>
     </Properties>
-    <Item class="Part" referent="12">
+    <Item class="Part" referent="19">
       <Properties>
         <string name="Name">Baseplate</string>
         <bool name="Anchored">true</bool>
