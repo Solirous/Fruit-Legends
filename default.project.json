@@ -26,15 +26,24 @@
         },
         "Fist" : {
           "$className": "Folder"
+        },
+        "Movement" : {
+          "dashRemote" : {
+            "$className": "RemoteFunction"
+          },
+          "$className": "Folder"
+        },
+        "Vfx" : {
+          "$className": "Folder",
+
+          "vfxDashRemote" : {
+            "$className": "RemoteEvent"
+          }
+
         }
-      },
 
-      
-      "Movement" : {
-        "$className": "Folder"
+
       }
-
-
     },
 
     "ServerScriptService": {
@@ -48,7 +57,14 @@
         "Client": {
           "$path": "src/client"
         }
+      },
+
+      "StarterCharacterScripts" : {
+        "CharacterClient" :{
+          "$path": "src/CharacterClient"
+        }
       }
+
     },
 
     "Workspace": {
