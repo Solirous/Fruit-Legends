@@ -67,6 +67,12 @@
 
     },
 
+    "ReplicatedFirst": {
+      "VfxHandler" :{
+        "$className": "Folder",
+        "$path": "src/ReplicatedFirst"
+      }
+    },
     "Workspace": {
       "$properties": {
         "FilteringEnabled": true

@@ -12,7 +12,7 @@ local dashVFX = remoteServices:getRemote("Vfx","vfxDashRemote")
 
 local dashCoolDown = {}
 
-local dashCoolDownTime = .4
+local dashCoolDownTime = .105
 
 Players.PlayerAdded:Connect(function(player)
     local key = player.UserId
@@ -23,11 +23,10 @@ end)
 
 dashRemote.OnServerInvoke = function(player)
     local character = player.Character
-    if os.clock() - dashCoolDown[player.UserId] > dashCoolDownTime then
-        dashCoolDown[player.UserId] = os.clock()
-        dashVFX:FireAllClients(character)
+    if os.clock() - dashCoolDown[player.UserId] >= dashCoolDownTime then
+		dashCoolDown[player.UserId] = os.clock()
+		dashVFX:FireAllClients(player.Character) --
         return true
     end
 end
-
 

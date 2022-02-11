@@ -1,4 +1,7 @@
 local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local Debris = game:GetService("Debris")
+local ContentProvider = game:GetService("ContentProvider")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Util = ReplicatedStorage:WaitForChild("Util")
@@ -8,6 +11,10 @@ local dashRemote = remoteServices:getRemote("Movement","dashRemote")
 
 local dashVFX = remoteServices:getRemote("Vfx","vfxDashRemote")
 
+local Assets = ReplicatedStorage:WaitForChild("Assets")
+
+local player = Players.LocalPlayer
+local character =player.Character or player.CharacterAdded:Wait()
 
 local keys = {
     Forward = Enum.KeyCode.W,
@@ -19,7 +26,7 @@ local keys = {
 
 
 
-function Fade(ty,char)
+local function Fade(ty,char)
     for i , v in pairs(char:GetDescendants()) do
         if v:IsA("BasePart") or v:IsA("Decal") then
             if ty == "out" then
@@ -37,12 +44,67 @@ function Fade(ty,char)
     end
 end
 
+
+local function get(basePartName)
+    if basePartName == "char" then
+        return character
+    else
+        return character:WaitForChild(basePartName)
+    end
+end
+
+local function soruParticle(callback,char)
+    local Soru = Assets.Soru:Clone()
+    Soru.Parent = char.HumanoidRootPart
+    local emitCount = Soru:GetAttribute("EmitCount")
+    Soru:Emit(emitCount or  Soru.Rate)
+    if callback then
+        callback()
+    end
+    Debris:AddItem(Soru,.2)
+end
+
+
+local function playSound()
+    local sound = Instance.new("Sound")
+    sound.Parent = workspace
+    sound.Volume = 5
+    sound.TimePosition = .3
+    sound.PlayOnRemove = true
+    sound.SoundId = "rbxassetid://8788993681"
+    sound:Destroy()
+end
+
+local function dash(type,speed)
+    local BodyVelocity = Instance.new("BodyVelocity")
+    BodyVelocity.MaxForce = Vector3.new(1,0,1) * 100000
+    BodyVelocity.P = 10000
+    if UserInputService.MouseBehavior == Enum.MouseBehavior.LockCenter then
+    if type == "Forward" then 
+        BodyVelocity.Velocity = get("HumanoidRootPart").CFrame.LookVector * speed
+    elseif type == "Back" then
+        BodyVelocity.Velocity = get("HumanoidRootPart").CFrame.LookVector* -speed
+    elseif type == "Right" then
+        BodyVelocity.Velocity = get("HumanoidRootPart").CFrame.RightVector * speed
+    elseif type == "Left" then
+        BodyVelocity.Velocity = get("HumanoidRootPart").CFrame.RightVector *  -speed
+    end
+else
+    BodyVelocity.Velocity = get("HumanoidRootPart").CFrame.LookVector * speed
+end
+    BodyVelocity.Parent = get("HumanoidRootPart")
+    Debris:AddItem(BodyVelocity,.2)
+end
+
+
+
+
 local function getKey()
     local keyPressed
 
     for index , key in pairs(keys) do
         if UserInputService:IsKeyDown(key) then
-            keyPressed = key 
+            keyPressed = index
             return keyPressed
         end
     end
@@ -52,22 +114,27 @@ end
 UserInputService.InputBegan:Connect(function(input,gameProceesedEvent)
     if gameProceesedEvent then return end
     if input.KeyCode == Enum.KeyCode.Q then
-        local ableToDash = dashRemote:InvokeServer()
-        if ableToDash then
+        local ableToDash =  dashRemote:InvokeServer()
+        if ableToDash  then
+            coroutine.resume(coroutine.create(function()
             local keyPressed = getKey()
             if keyPressed then
-
+                dash(keyPressed,100)
                 else
-                    dashVFX:FireServer()
             end
+
+        end))
+
         end
     end
 end)
 
 dashVFX.OnClientEvent:Connect(function(playerDashedCharacter)
     Fade("out",playerDashedCharacter)
-    task.wait(.4)
+    soruParticle(playSound,playerDashedCharacter)
+    task.wait(.5)
     Fade("in",playerDashedCharacter)
+    soruParticle(nil,playerDashedCharacter)
 end)
 
 
