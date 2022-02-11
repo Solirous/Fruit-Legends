@@ -21,12 +21,11 @@ end)
 
 
 
-dashRemote.OnServerInvoke = function(player)
+dashVFX.OnServerEvent:Connect(function(player)
     local character = player.Character
     if os.clock() - dashCoolDown[player.UserId] >= dashCoolDownTime then
 		dashCoolDown[player.UserId] = os.clock()
-		dashVFX:FireAllClients(player.Character) --
-        return true
+        dashVFX:FireAllClients(character)
     end
-end
+end)
 

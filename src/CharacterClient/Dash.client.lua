@@ -16,13 +16,14 @@ local Assets = ReplicatedStorage:WaitForChild("Assets")
 local player = Players.LocalPlayer
 local character =player.Character or player.CharacterAdded:Wait()
 
+local db = os.clock()
+
 local keys = {
     Forward = Enum.KeyCode.W,
     Back = Enum.KeyCode.S,
     Left = Enum.KeyCode.A,
     Right = Enum.KeyCode.D
 }
-
 
 
 
@@ -53,9 +54,10 @@ local function get(basePartName)
     end
 end
 
-local function soruParticle(callback,char)
+local function soruParticle(callback,char,shape)
     local Soru = Assets.Soru:Clone()
     Soru.Parent = char.HumanoidRootPart
+    Soru.ShapeInOut = shape
     local emitCount = Soru:GetAttribute("EmitCount")
     Soru:Emit(emitCount or  Soru.Rate)
     if callback then
@@ -113,28 +115,32 @@ end
 
 UserInputService.InputBegan:Connect(function(input,gameProceesedEvent)
     if gameProceesedEvent then return end
-    if input.KeyCode == Enum.KeyCode.Q then
-        local ableToDash =  dashRemote:InvokeServer()
-        if ableToDash  then
-            coroutine.resume(coroutine.create(function()
-            local keyPressed = getKey()
-            if keyPressed then
-                dash(keyPressed,100)
-                else
-            end
-
-        end))
-
-        end
+    if input.KeyCode == Enum.KeyCode.Q and os.clock()  - db > .2 then
+         local keypreesed = getKey()
+         if keypreesed then
+             dash(keypreesed,100)
+         end
+         task.spawn(function()
+            Fade("out",get("char"))
+            soruParticle(playSound,get("char"),Enum.ParticleEmitterShapeInOut.Outward)
+            task.wait(.5)
+            Fade("in",get("char"))
+            soruParticle(nil,get("char"),Enum.ParticleEmitterShapeInOut.Inward)
+            end)
+            dashVFX:FireServer()
     end
 end)
 
 dashVFX.OnClientEvent:Connect(function(playerDashedCharacter)
+    if playerDashedCharacter ~= get("char") then
     Fade("out",playerDashedCharacter)
-    soruParticle(playSound,playerDashedCharacter)
+    soruParticle(playSound,playerDashedCharacter,Enum.ParticleEmitterShapeInOut.Outward)
     task.wait(.5)
     Fade("in",playerDashedCharacter)
-    soruParticle(nil,playerDashedCharacter)
+    soruParticle(nil,playerDashedCharacter,Enum.ParticleEmitterShapeInOut.Inward)
+    end
 end)
+
+
 
 

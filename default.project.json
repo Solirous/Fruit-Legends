@@ -13,37 +13,8 @@
       "Util" : {
         "$className": "Folder",
         "$path": "src/Util"
-      },
-
-
-      "Remotes" : {
-        "$className": "Folder",
-        "Katana" : {
-          "$className": "Folder",
-          "katanaRemote" : {
-            "$className": "RemoteFunction"
-          }
-        },
-        "Fist" : {
-          "$className": "Folder"
-        },
-        "Movement" : {
-          "dashRemote" : {
-            "$className": "RemoteFunction"
-          },
-          "$className": "Folder"
-        },
-        "Vfx" : {
-          "$className": "Folder",
-
-          "vfxDashRemote" : {
-            "$className": "RemoteEvent"
-          }
-
-        }
-
-
       }
+
     },
 
     "ServerScriptService": {
