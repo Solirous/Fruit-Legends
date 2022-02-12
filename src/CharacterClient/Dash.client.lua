@@ -129,14 +129,14 @@ UserInputService.InputBegan:Connect(function(input,gameProceesedEvent)
     if gameProceesedEvent then return end
     if input.KeyCode == Enum.KeyCode.Q and os.clock()  - db > 0.5 then
          local keypreesed = getKey()
-         if keypreesed then
+         if keypreesed then 
              dash(keypreesed,100)
          end
          task.spawn(function()
             Fade("out",get("char"))
             dashfx_func(get("char"))
             soruParticle(playSound,get("char"),Enum.ParticleEmitterShapeInOut.Outward)
-            task.wait(.5)
+            task.wait(.7)
             Fade("in",get("char"))
             soruParticle(nil,get("char"),Enum.ParticleEmitterShapeInOut.Inward)
             end)
@@ -150,7 +150,7 @@ dashVFX.OnClientEvent:Connect(function(playerDashedCharacter)
     Fade("out",playerDashedCharacter)
     dashfx_func(playerDashedCharacter)
     soruParticle(playSound,playerDashedCharacter,Enum.ParticleEmitterShapeInOut.Outward)
-    task.wait(.5)
+    task.wait(.7)
     Fade("in",playerDashedCharacter)
     soruParticle(nil,playerDashedCharacter,Enum.ParticleEmitterShapeInOut.Inward)
     end
