@@ -6,11 +6,14 @@ local remoteServices= require(Util.RemoteServices)
 
 local initRemote = remoteServices:getRemote("Weapon","Init")
 
+local Class = ReplicatedStorage.Class
 
-function initOnServerEvent(player)
+local Katana = require(Class.Katana)
 
 
-    
+function initOnServerEvent(player ,data  : table)
+   local katanaClass =  Katana.new(player,"Katana")
+   katanaClass:init()
 end
 
 

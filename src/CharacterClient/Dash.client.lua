@@ -2,6 +2,7 @@ local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local Debris = game:GetService("Debris")
 local ContentProvider = game:GetService("ContentProvider")
+local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Util = ReplicatedStorage:WaitForChild("Util")
@@ -32,7 +33,7 @@ local function Fade(ty,char)
         if v:IsA("BasePart") or v:IsA("Decal") then
             if ty == "out" then
                 v.Transparency = 1
-            else
+            elseif not CollectionService:HasTag(v,"noTrans") then
                 v.Transparency = 0
                 if v.Name == "HumanoidRootPart" then
                     v.Transparency = 1
@@ -55,7 +56,7 @@ local function get(basePartName)
 end
 
 local function soruParticle(callback,char,shape)
-    local Soru = Assets.Soru:Clone()
+    local Soru = Assets.DashVFX.Soru:Clone()
     Soru.Parent = char.HumanoidRootPart
     Soru.ShapeInOut = shape
     local emitCount = Soru:GetAttribute("EmitCount")
@@ -65,12 +66,23 @@ local function soruParticle(callback,char,shape)
     end
     Debris:AddItem(Soru,.2)
 end
+local function dashfx_func(char)
+    for i , v in pairs(Assets.DashVFX:GetChildren()) do
+        if v.Name ~= "Soru" then
+            local cl = v:Clone()
+            cl.Parent = char.HumanoidRootPart
+            task.delay(.5,function()
+                cl:Destroy()
+            end)
+        end
+    end
+end
 
 
 local function playSound()
     local sound = Instance.new("Sound")
     sound.Parent = workspace
-    sound.Volume = 2
+    sound.Volume = 1
     sound.TimePosition = .3
     sound.PlayOnRemove = true
     sound.SoundId = "rbxassetid://8788993681"
@@ -115,25 +127,28 @@ end
 
 UserInputService.InputBegan:Connect(function(input,gameProceesedEvent)
     if gameProceesedEvent then return end
-    if input.KeyCode == Enum.KeyCode.Q and os.clock()  - db > .2 then
+    if input.KeyCode == Enum.KeyCode.Q and os.clock()  - db > 0.5 then
          local keypreesed = getKey()
          if keypreesed then
              dash(keypreesed,100)
          end
          task.spawn(function()
             Fade("out",get("char"))
+            dashfx_func(get("char"))
             soruParticle(playSound,get("char"),Enum.ParticleEmitterShapeInOut.Outward)
             task.wait(.5)
             Fade("in",get("char"))
             soruParticle(nil,get("char"),Enum.ParticleEmitterShapeInOut.Inward)
             end)
-            dashVFX:FireServer()
+		dashVFX:FireServer()
+		db = os.clock()
     end
 end)
 
 dashVFX.OnClientEvent:Connect(function(playerDashedCharacter)
     if playerDashedCharacter ~= get("char") then
     Fade("out",playerDashedCharacter)
+    dashfx_func(playerDashedCharacter)
     soruParticle(playSound,playerDashedCharacter,Enum.ParticleEmitterShapeInOut.Outward)
     task.wait(.5)
     Fade("in",playerDashedCharacter)

@@ -15,7 +15,14 @@ function AnimationServices:getAnimationPack(name:string) : Folder
         return animationFolder
     end
 end
-
+function AnimationServices:getAnimation(packName : string , animationName : string )
+    local animationFolder = ReplicatedStorage.Animations:WaitForChild(packName,9e9)
+    if animationFolder then 
+        if animationFolder:FindFirstChild(animationName) then
+            return animationFolder[animationName]
+        end
+    end
+end
 
 
 return AnimationServices

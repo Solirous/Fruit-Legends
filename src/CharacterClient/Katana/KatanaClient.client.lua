@@ -6,7 +6,7 @@ local remoteServices= require(Util.RemoteServices)
 
 local initRemote = remoteServices:getRemote("Weapon","Init")
 
-initRemote:FireServer()
+initRemote:FireServer({Type = "Init"})
 
 
 

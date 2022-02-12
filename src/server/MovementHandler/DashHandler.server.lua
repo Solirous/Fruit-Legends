@@ -12,7 +12,7 @@ local dashVFX = remoteServices:getRemote("Vfx","vfxDashRemote")
 
 local dashCoolDown = {}
 
-local dashCoolDownTime = .105
+local dashCoolDownTime = .5
 
 Players.PlayerAdded:Connect(function(player)
     local key = player.UserId
