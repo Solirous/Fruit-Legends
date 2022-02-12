@@ -8,4 +8,14 @@ function AnimationServices:loadAnimation(Humanoid : Humanoid , animationFolderNa
             return Humanoid:LoadAnimation(Animation)
     end
 end
+
+function AnimationServices:getAnimationPack(name:string) : Folder 
+    local animationFolder = ReplicatedStorage.Animations:WaitForChild(name,9e9)
+    if animationFolder then 
+        return animationFolder
+    end
+end
+
+
+
 return AnimationServices

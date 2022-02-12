@@ -70,7 +70,7 @@ end
 local function playSound()
     local sound = Instance.new("Sound")
     sound.Parent = workspace
-    sound.Volume = 5
+    sound.Volume = 2
     sound.TimePosition = .3
     sound.PlayOnRemove = true
     sound.SoundId = "rbxassetid://8788993681"

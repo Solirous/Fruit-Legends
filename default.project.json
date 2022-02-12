@@ -13,6 +13,10 @@
       "Util" : {
         "$className": "Folder",
         "$path": "src/Util"
+      },
+      "Class" :  {
+        "$className": "Folder",
+        "$path" :  "src/Class" 
       }
 
     },
